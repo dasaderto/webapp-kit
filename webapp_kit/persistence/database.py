@@ -28,7 +28,7 @@ class DatabaseConnection:
 
     @contextmanager
     def connection(self) -> Generator[Session, None, None]:
-        db = self.session
+        db = self.session()
         try:
             yield db
         finally:
@@ -36,7 +36,7 @@ class DatabaseConnection:
 
     @asynccontextmanager
     async def async_connection(self) -> AsyncGenerator[AsyncSession, None]:
-        async with self.session as session:
+        async with self.session() as session:
             async with session.begin():
                 yield session
 

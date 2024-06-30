@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from typing import Any, AsyncGenerator, Callable, Type, TypeVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -33,11 +34,9 @@ class AsyncUnitOfWork:
 T = TypeVar("T", bound=AsyncUnitOfWork)
 
 
+@asynccontextmanager
 def unit_of_work(cls: Type[T], connection: DatabaseConnection) -> Callable[
     [], AsyncGenerator[T, None]]:
-    async def wrapped() -> AsyncGenerator[AsyncUnitOfWork, None]:
-        async with connection.async_connection() as session:
-            async with cls(session=session) as uow:
-                yield uow
-
-    return wrapped
+    async with connection.async_connection() as session:
+        async with cls(session=session) as uow:
+            yield uow

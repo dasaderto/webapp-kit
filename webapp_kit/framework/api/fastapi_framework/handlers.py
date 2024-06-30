@@ -4,9 +4,8 @@ from typing import Any
 
 from fastapi import Depends
 
-from framework.api.fastapi_framework.exceptions import UnauthorizedException, ExceptionDetail
-from framework.api.fastapi_framework.jwt import token_from_cookie
-from webapp_kit.framework.api.fastapi_framework.jwt import token_from_header
+from webapp_kit.framework.api.fastapi_framework.exceptions import UnauthorizedException, ExceptionDetail
+from webapp_kit.framework.api.fastapi_framework.jwt import token_from_header, token_from_cookie
 from webapp_kit.persistence.asyncio import unit_of_work as async_uow
 from webapp_kit.persistence.asyncio.unit_of_work import AsyncUnitOfWork
 from webapp_kit.persistence.sync import unit_of_work as sync_uow

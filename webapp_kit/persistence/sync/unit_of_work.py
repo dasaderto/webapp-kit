@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import contextmanager
 from typing import Any, Generator, Callable, Type, TypeVar
 
 from sqlalchemy.orm import Session
@@ -33,10 +34,8 @@ class SyncUnitOfWork:
 T = TypeVar("T", bound=SyncUnitOfWork)
 
 
+@contextmanager
 def unit_of_work(cls: Type[T], connection: DatabaseConnection) -> Callable[[], Generator[T, None, None]]:
-    def wrapped() -> Generator[SyncUnitOfWork, None, None]:
-        with connection.connection() as session:
-            with cls(session=session) as uow:
-                yield uow
-
-    return wrapped
+    with connection.connection() as session:
+        with cls(session=session) as uow:
+            yield uow
