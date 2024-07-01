@@ -35,7 +35,7 @@ T = TypeVar("T", bound=AsyncUnitOfWork)
 
 
 @asynccontextmanager
-def unit_of_work(cls: Type[T], connection: DatabaseConnection) -> Callable[
+async def unit_of_work(cls: Type[T], connection: DatabaseConnection) -> Callable[
     [], AsyncGenerator[T, None]]:
     async with connection.async_connection() as session:
         async with cls(session=session) as uow:
