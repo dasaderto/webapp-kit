@@ -40,6 +40,11 @@ class PermissionDeniedException(APIException):
         super().__init__(status_code=status.HTTP_403_FORBIDDEN, detail=detail)
 
 
+class ThrottleException(APIException):
+    def __init__(self, detail: Iterable[ExceptionDetail] = ()) -> None:
+        super().__init__(status_code=status.HTTP_403_FORBIDDEN, detail=detail)
+
+
 def validation_exception_handler(request: Request, exc: APIException) -> JSONResponse:
     errors_list = []
     for error in exc.detail:
