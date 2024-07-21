@@ -49,7 +49,7 @@ class JWTTokens:
 
 
 def token_from_header(
-    token: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+    token: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False)),
 ) -> str | None:
     if token is None:
         return None
